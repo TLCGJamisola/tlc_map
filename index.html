@@ -115,14 +115,15 @@
 			const hammer = new Hammer(selectedSVG);
 			hammer.get('pinch').set({ enable: true });
 
-			let initialZoom = panZoom.getZoom();
+			let initialZoom = 1;
 
-			hammer.on('pinchstart', function () {
+			hammer.on('pinchstart', function (ev) {
 			  initialZoom = panZoom.getZoom();
 			});
 
-			hammer.on('pinch', function (ev) {
-			  panZoom.zoom(initialZoom * ev.scale);
+			hammer.on('pinchmove', function (ev) {
+			  const point = ev.center;
+			  panZoom.zoomAtPoint(initialZoom * ev.scale, { x: point.x, y: point.y });
 			});
 			
 		})
