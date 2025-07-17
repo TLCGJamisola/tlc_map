@@ -44,17 +44,17 @@
 	  z-index: 1001;
 	  display: flex;
 	  flex-direction: column;
-	  gap: 6px;
+	  gap: 20px;
 	}
 
 	#button-panel button {
 	  background-color: #007BFF;
 	  color: white;
 	  border: none;
-	  padding: 8px 12px;
+	  padding: 26px 30px;
 	  border-radius: 4px;
 	  cursor: pointer;
-	  font-size: 14px;
+	  font-size: 18px;
 	  transition: background 0.2s;
 	  font-family: Arial, sans-serif;
 	}
@@ -73,9 +73,9 @@
 	</div>
 	
 	<div id="button-panel">
-	  <button onclick="showSVG('first_floor.svg')">First Floor</button>
-	  <button onclick="showSVG('second_floor.svg')">Second Floor</button>
-	  <button onclick="showSVG('third_floor.svg')">Third Floor</button>
+	  <button onclick="showSVG('first_floor.svg', 1)" id="btnfloor1">FIRST FLOOR</button>
+	  <button onclick="showSVG('second_floor.svg', 2)" id="btnfloor2">SECOND FLOOR</button>
+	  <button onclick="showSVG('third_floor.svg', 3)" id="btnfloor3">THIRD FLOOR</button>
 	</div>    
    
    
@@ -88,12 +88,17 @@
 <script src="https://cdn.jsdelivr.net/npm/svg-pan-zoom@3.6.1/dist/svg-pan-zoom.min.js"></script>
 <script>
    let panZoom;
-   function showSVG(filename) 
+   function showSVG(filename, floorno) 
    {
 	  if (panZoom) {
         panZoom.destroy();
       }
-	 
+	  document.getElementById("btnfloor1").style.backgroundColor ="#007BFF";
+	  document.getElementById("btnfloor2").style.backgroundColor="#007BFF";
+	  document.getElementById("btnfloor3").style.backgroundColor="#007BFF";
+	  
+	  document.getElementById("btnfloor"+floorno).style.backgroundColor="#00A86B";
+	  
 	  fetch(filename)
 		.then(response => response.text())
 		.then(svgContent => {
@@ -128,7 +133,7 @@
 	}
   
     window.addEventListener("load", () => {
-	 showSVG("first_floor.svg");
+	 showSVG("first_floor.svg", 1);
    });
   
 </script>
