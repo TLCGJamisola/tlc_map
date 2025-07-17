@@ -83,7 +83,7 @@
 		
 	</div>
 </div>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/svg-pan-zoom@3.6.1/dist/svg-pan-zoom.min.js"></script>
 <script>
    let panZoom;
@@ -104,6 +104,19 @@
 			  controlIconsEnabled: true,
 			  fit: true,
 			  center: true
+			});
+			
+			const hammer = new Hammer(selectedSVG);
+			hammer.get('pinch').set({ enable: true });
+
+			let initialZoom = panZoom.getZoom();
+
+			hammer.on('pinchstart', function () {
+			  initialZoom = panZoom.getZoom();
+			});
+
+			hammer.on('pinch', function (ev) {
+			  panZoom.zoom(initialZoom * ev.scale);
 			});
 			
 		})
