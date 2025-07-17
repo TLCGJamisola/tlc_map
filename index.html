@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>TLC Classrooms</title>
+  <link rel="icon" href="favicon.png" type="image/png">
+  <style>
+    html, body {
+      margin: 0;
+      height: 100%;
+      overflow: hidden;
+    }
+    #svg-container {
+      width: 100%;
+      height: 100vh;
+      border: 1px solid #ccc;
+    }
+	#svg-wrapper {
+	  height: 100%;
+	  width: 100%;
+	}
+    svg {
+      width: 100%;
+      height: 100%;
+    }
+	#instruction-box {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: rgba(0, 0, 0, 0.6);
+      color: white;
+      padding: 8px 12px;
+      font-size: 14px;
+      border-radius: 6px;
+      z-index: 1000;
+      font-family: Arial, sans-serif;
+    }
+	
+	#button-panel {
+	  position: absolute;
+	  top: 10px;
+	  right: 10px;
+	  z-index: 1001;
+	  display: flex;
+	  flex-direction: column;
+	  gap: 6px;
+	}
+
+	#button-panel button {
+	  background-color: #007BFF;
+	  color: white;
+	  border: none;
+	  padding: 8px 12px;
+	  border-radius: 4px;
+	  cursor: pointer;
+	  font-size: 14px;
+	  transition: background 0.2s;
+	  font-family: Arial, sans-serif;
+	}
+
+	#button-panel button:hover {
+	  background-color: #0056b3;
+	}
+		
+  </style>
+</head>
+<body>
+
+<div id="svg-container">
+	<div id="instruction-box">
+		🖱️Scroll to zoom, click and drag to move
+	</div>
+	
+	<div id="button-panel">
+	  <button onclick="showSVG('first_floor.svg')">First Floor</button>
+	  <button onclick="showSVG('second_floor.svg')">Second Floor</button>
+	  <button onclick="showSVG('third_floor.svg')">Third Floor</button>
+	</div>    
+   
+   
+	<div id="svg-wrapper">
+		
+		
+	</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/svg-pan-zoom@3.6.1/dist/svg-pan-zoom.min.js"></script>
+<script>
+   let panZoom;
+   function showSVG(filename) 
+   {
+	  if (panZoom) {
+        panZoom.destroy();
+      }
+	 
+	  fetch(filename)
+		.then(response => response.text())
+		.then(svgContent => {
+		  document.getElementById("svg-wrapper").innerHTML = svgContent;
+		    const selectedSVG = document.querySelector("#svg-wrapper svg");
+			
+			panZoom = svgPanZoom(selectedSVG, {
+			  zoomEnabled: true,
+			  controlIconsEnabled: true,
+			  fit: true,
+			  center: true
+			});
+			
+		})
+		.catch(err => {
+		  console.error("Error loading SVG:", err);
+		});
+		
+	}
+  
+    window.addEventListener("load", () => {
+	 showSVG("first_floor.svg");
+   });
+  
+</script>
+
+</body>
+</html>
